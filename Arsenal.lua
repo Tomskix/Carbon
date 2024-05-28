@@ -265,12 +265,53 @@ local Window = Library.CreateLib("Carbon - Arsenal", "DarkTheme")
 local CombatTab = Window:NewTab("Combat")
 local VisualTab = Window:NewTab("Visuals")
 local MovementTab = Window:NewTab("Movement")
+local ModsTab = Window:NewTab("Gun Mods")
 local SettingsTab = Window:NewTab("Settings")
 
 local Settingoptions = {
     HeadShotPercent = 100
 }
 
+local GunModSettings = {
+    IAmmo = false,
+}
+
+local ModsSec = ModsTab:NewSection("Gun Mods")
+
+ModsSec:NewToggle("Infinite Ammo", "Enable Infinite Ammo", function(bool)
+    GunModSettings.IAmmo = bool
+end)
+ModsSec:NewButton("No Recoil", "Enable No Ammo", function(callback)
+    for i, v in pairs(game.ReplicatedStorage.Weapons:GetDescendants()) do
+        if v.Name == "RecoilControl" then
+             v.Value = 0
+        end
+    end
+end)
+
+ModsSec:NewButton("No FireRate", "Enable No FireRate", function(callback)
+    for i, v in pairs(game.ReplicatedStorage.Weapons:GetDescendants()) do
+            if v.Name == "FireRate" then
+                v.Value = 0.05
+            end
+    end
+end)
+
+ModsSec:NewButton("No Reload Time", "Enable No Reload", function(callback)
+    for i, v in pairs(game.ReplicatedStorage.Weapons:GetDescendants()) do
+            if v.Name == "ReloadTime" then
+                    v.Value = 0.1
+            end
+     end
+end)
+
+
+game:GetService('RunService').PreRender:connect(function()
+    if GunModSettings.IAmmo == true then
+        game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount.Value = 999    
+        game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount2.Value = 999
+    end
+end)
 
 
 local EspSection = VisualTab:NewSection("ESP Settings")
