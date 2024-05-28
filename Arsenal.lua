@@ -348,7 +348,7 @@ end
 -- Function to update the block's position
 local function updateBlockPosition()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    local newPosition = humanoidRootPart.Position + Vector3.new(0, 6, 0)
+    local newPosition = humanoidRootPart.Position + Vector3.new(-2, 6, 0)
     followBlock.CFrame = CFrame.new(newPosition)
     camera.CameraSubject = followBlock
 end
@@ -397,6 +397,8 @@ end)
 optionsec:NewSlider("Headshot %", "Less obvious", 100, 1, function(heads)
     Settingoptions.HeadShotPercent = heads
 end)
+
+
 local speedsettings = {
     Speed = 5,
     FlightSpeed = 5,
@@ -452,6 +454,7 @@ end
 local function onKeyRelease(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.W or input.KeyCode == Enum.KeyCode.A or input.KeyCode == Enum.KeyCode.S or input.KeyCode == Enum.KeyCode.D then
         keysPressed[input.KeyCode] = nil
+        
     end
 end
 
