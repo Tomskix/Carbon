@@ -19,7 +19,7 @@ local MovementSettings = {
     Noclip = false,
 }
 
-BalantSec:NewSlider("WalkSpeed", "Increase Walkspeed", 150, 16, function(ws)
+BalantSec:NewSlider("WalkSpeed", "Increase Walkspeed", 30, 1, function(ws)
     MovementSettings.TargetWS = ws
 end)
 
@@ -53,7 +53,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
         end
     end
 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = MovementSettings.TargetWS
+    
 end)
 
 UIS.JumpRequest:Connect(function()
@@ -77,4 +77,16 @@ workspace.DescendantAdded:Connect(function(dec)
             end
         end
     end
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+        chr = game:GetService("Players").LocalPlayer.Character
+        hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+        hb = game:GetService("RunService").Heartbeat
+        local delta = hb:wait()
+        if hum.MoveDirection.Magnitude > 0 then
+            chr:TranslateBy(hum.MoveDirection * MovementSettings.TargetWS * delta * 10)
+        else
+            chr:TranslateBy(hum.MoveDirection * delta * 10)
+        end
 end)
